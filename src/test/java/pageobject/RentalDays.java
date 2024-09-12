@@ -1,4 +1,4 @@
-package page_object;
+package pageobject;
 
 public enum RentalDays {
     ONE(0),

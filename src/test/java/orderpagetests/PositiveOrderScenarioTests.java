@@ -1,23 +1,29 @@
-package order_page_tests;
+package orderpagetests;
 
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import page_object.RentalDays;
-import page_object.MainPage;
-import page_object.OrderPage;
+import pageobject.RentalDays;
+import pageobject.MainPage;
+import pageobject.OrderPage;
 
 import static org.junit.Assert.assertTrue;
 
 @RunWith(Parameterized.class)
 public class PositiveOrderScenarioTests {
+
+    private ChromeOptions options;
     private WebDriver driver;
     private OrderPage orderPage;
     private MainPage mainPage;
+    private WebDriverWait w8;
     private final String name;
     private final String surname;
     private final String address;
@@ -44,23 +50,40 @@ public class PositiveOrderScenarioTests {
         this.rentalDaysCount = rentalDaysCount;
     }
 
-
     @Parameterized.Parameters
     public static Object[][] getData() {
         return new Object[][]{
-                {"Алёша", "Попович", "ул. Пушкина, д. Колотушкина", "Лихоборы", "88005553535", 999, RentalDays.SEVEN}
+                {"Алёша", "Попович", "ул. Пушкина, д. Колотушкина", "Лихоборы", "88005553535", 99, RentalDays.SEVEN},
+                {"Йеллоу", "Кард", "Оушен Авеню", "Деловой центр", "+79999999999", 2003, RentalDays.ONE},
         };
     }
 
-    @Test
-    public void shouldMakeOrderViaTopButtonFromMainPage() {
-        driver = new ChromeDriver();
-        driver.get("https://qa-scooter.praktikum-services.ru/");
+    @Before
+    public void presetting() {
+        options = new ChromeOptions().addArguments("--disable-cookies"); // Не уверен что работает, но индус на ютубе сказал что работает. Не знаю как проверить.
+        driver = new ChromeDriver(options);
+        driver.get(MainPage.url);
         mainPage = new MainPage(driver);
         orderPage = new OrderPage(driver);
-        WebDriverWait w8 = new WebDriverWait(driver, 3);
+        w8 = new WebDriverWait(driver, 3);
+    }
 
+    @Test
+    public void shouldOpenOrderPageViaMainPageTopOrderButton() {
         mainPage.clickTopOrderButton();
+        w8.until(ExpectedConditions.urlToBe(OrderPage.url));
+    }
+
+    @Test
+    public void shouldOpenOrderPageViaMainPageBotOrderButton() {
+        mainPage.scrollToElement(mainPage.getBotOrderButton());
+        mainPage.clickBotOrderButton();
+        w8.until(ExpectedConditions.urlToBe(OrderPage.url));
+    }
+
+    @Test
+    public void shouldMakeOrder() {
+        driver.get(OrderPage.url); // Чтобы можно было использовать как отдельный тест
         orderPage.fillNameField(name);
         orderPage.fillSurnameField(surname);
         orderPage.fillAddressField(address);
@@ -70,10 +93,9 @@ public class PositiveOrderScenarioTests {
         orderPage.selectDeliveryDate(calendarDaysAfterToday);
         orderPage.selectRentalPeriod(rentalDaysCount);
         orderPage.clickBotOrderButton();
-        orderPage.clickYesButon();
-        assertTrue( orderPage.getHeaderOrderHasBeenPlaced().isDisplayed());
+        orderPage.clickYesButton();
+        assertTrue(orderPage.getHeaderOrderHasBeenPlaced().isDisplayed());
     }
-
 
     @After
     public void teardown() {

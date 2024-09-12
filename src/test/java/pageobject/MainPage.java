@@ -1,4 +1,4 @@
-package page_object;
+package pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -8,11 +8,13 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 
 
-public class MainPage implements Scrollable{
+public class MainPage implements Scrollable {
+
     private final WebDriver driver;
-    private static final By faqQuestionsList = PageLocators.faqQuestionsList;
-    private static final By topOrderButton = PageLocators.topOrderButton;
-    private static final By botOrderButtonMainPage = PageLocators.botOrderButtonMainPage;
+    public static final String url = "https://qa-scooter.praktikum-services.ru/";
+    private static final By faqQuestionsList = By.xpath(".//div[@aria-expanded]");
+    private static final By topOrderButton = By.xpath(".//button[@class='Button_Button__ra12g']");
+    private static final By botOrderButton = By.xpath(".//div[@class='Home_FinishButton__1_cWm']/button");
 
     public MainPage(WebDriver driver) {
         this.driver = driver;
@@ -26,17 +28,18 @@ public class MainPage implements Scrollable{
         return driver.findElement(topOrderButton);
     }
 
-    public WebElement getBotOrderButtonMainPage() {
-        return driver.findElement(botOrderButtonMainPage);
-    }
-
-    public boolean isQuestionExpanded(WebElement element) {
-        return Boolean.parseBoolean(element.getAttribute("aria-expanded"));
+    public WebElement getBotOrderButton() {
+        return driver.findElement(botOrderButton);
     }
 
     public void clickTopOrderButton() {
         getTopOrderButton().click();
     }
+
+    public void clickBotOrderButton() {
+        getBotOrderButton().click();
+    }
+
     @Override
     public void scrollToElement(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);

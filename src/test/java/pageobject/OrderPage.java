@@ -1,4 +1,4 @@
-package page_object;
+package pageobject;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,20 +11,34 @@ import java.time.format.TextStyle;
 import java.util.*;
 
 public class OrderPage implements Scrollable {
+
     private final WebDriver driver;
-    private final By nameInputField = PageLocators.nameInputField;
-    private final By surnameInputField = PageLocators.surnameInputField;
-    private final By addressInputField = PageLocators.addressInputField;
-    private final By metroStationInputField = PageLocators.metroStationInputField;
-    private final By metroStationsList = PageLocators.metroStationsList;
-    private final By phoneNumberInputField = PageLocators.phoneNumberInputField;
-    private final By nextButtonOrderPage = PageLocators.nextButtonOrderPage;
-    private final By calendarInputField = PageLocators.calendarInputField;
-    private final By rentDropdownField = PageLocators.rentDropdownField;
-    private final By rentDropdownList = PageLocators.rentDropdownList;
-    private final By botOrderButtonOrderPage = PageLocators.botOrderButtonOrderPage;
-    private final By buttonYesConfirmOrderWindow = PageLocators.buttonYesConfirmOrderWindow;
-    private final By headerOrderHasBeenPlaced = PageLocators.headerOrderHasBeenPlaced;
+    public static final String url = "https://qa-scooter.praktikum-services.ru/order";
+    private static final By nameInputField = By.xpath(".//input[@placeholder='* Имя']");
+    // Поле ввода фамилии
+    private static final By surnameInputField = By.xpath(".//input[@placeholder='* Фамилия']");
+    // Поле ввода адреса
+    private static final By addressInputField = By.xpath(".//input[@placeholder='* Адрес: куда привезти заказ']");
+    // Поле с выпадающим списком станций
+    private static final By metroStationInputField = By.xpath(".//input[@placeholder='* Станция метро']/parent::*/parent::*");
+    // Выпадающий список станций метро
+    private static final By metroStationsList = By.xpath(".//div[@class='Order_Text__2broi']/parent::*/parent::*");
+    // Поле номера телефона
+    private static final By phoneNumberInputField = By.xpath(".//input[@placeholder='* Телефон: на него позвонит курьер']");
+    // Кнопка далее
+    private static final By nextButtonOrderPage = By.xpath(".//button[text()='Далее']");
+    // Поле с выпадающим календарем
+    public static final By calendarInputField = By.xpath(".//input[@placeholder='* Когда привезти самокат']");
+    // Поле с выпадающим списком срока аренды
+    public static final By rentDropdownField = By.xpath(".//div[@class='Dropdown-root']");
+    // Список сроков аренды
+    public static final By rentDropdownList = By.xpath(".//div[@class='Dropdown-menu']/div");
+    // Кнопка Заказать экрана заказа
+    public static final By botOrderButtonOrderPage  = By.xpath(".//div[@class='Order_Buttons__1xGrp']/button[text()='Заказать']");
+    // Кнопка Да
+    public static final By buttonYesConfirmOrderWindow = By.xpath(".//button[text()='Да']");
+    // Заголовок Заказ оформлен
+    public static final By headerOrderHasBeenPlaced = By.xpath(".//div[text()='Заказ оформлен']");
 
     public OrderPage(WebDriver driver) {
         this.driver = driver;
@@ -72,6 +86,7 @@ public class OrderPage implements Scrollable {
                 .atZone(ZoneId.systemDefault())
                 .plusDays(Math.max(daysAfterToday, 0));
         int requiredYear = plusDate.getYear();
+
         String requiredMonth = plusDate
                 .getMonth()
                 .getDisplayName(TextStyle.FULL_STANDALONE, new Locale("ru"));
@@ -158,7 +173,7 @@ public class OrderPage implements Scrollable {
         getBotOrderButtonOrderPage().click();
     }
 
-    public void clickYesButon() {
+    public void clickYesButton() {
         getButtonYesConfirmOrderWindow().click();
     }
 }
