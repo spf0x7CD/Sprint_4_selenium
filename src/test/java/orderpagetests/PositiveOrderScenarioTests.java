@@ -24,13 +24,13 @@ public class PositiveOrderScenarioTests {
     private OrderPage orderPage;
     private MainPage mainPage;
     private WebDriverWait w8;
-    private final String name;
-    private final String surname;
-    private final String address;
-    private final String metroStation;
-    private final String phoneNumber;
-    private final int calendarDaysAfterToday;
-    private final RentalDays rentalDaysCount;
+    private String name;
+    private String surname;
+    private String address;
+    private String metroStation;
+    private String phoneNumber;
+    private int calendarDaysAfterToday;
+    private RentalDays rentalDaysCount;
 
     public PositiveOrderScenarioTests(
             String name,
@@ -62,28 +62,34 @@ public class PositiveOrderScenarioTests {
     public void presetting() {
         options = new ChromeOptions().addArguments("--disable-cookies"); // Не уверен что работает, но индус на ютубе сказал что работает. Не знаю как проверить.
         driver = new ChromeDriver(options);
-        driver.get(MainPage.url);
+        driver.get(MainPage.MAIN_PAGE_URL);
         mainPage = new MainPage(driver);
         orderPage = new OrderPage(driver);
         w8 = new WebDriverWait(driver, 3);
     }
 
     @Test
-    public void shouldOpenOrderPageViaMainPageTopOrderButton() {
+    public void shouldMakeOrderViaMainPageTopOrderButton() {
         mainPage.clickTopOrderButton();
-        w8.until(ExpectedConditions.urlToBe(OrderPage.url));
+        w8.until(ExpectedConditions.urlToBe(OrderPage.ORDER_PAGE_URL));
+        orderPage.fillNameField(name);
+        orderPage.fillSurnameField(surname);
+        orderPage.fillAddressField(address);
+        orderPage.selectMetroStation(metroStation);
+        orderPage.fillPhoneNumberField(phoneNumber);
+        orderPage.clickNextButton();
+        orderPage.selectDeliveryDate(calendarDaysAfterToday);
+        orderPage.selectRentalPeriod(rentalDaysCount);
+        orderPage.clickBotOrderButton();
+        orderPage.clickYesButton();
+        assertTrue(orderPage.getHeaderOrderHasBeenPlaced().isDisplayed());
     }
 
     @Test
-    public void shouldOpenOrderPageViaMainPageBotOrderButton() {
+    public void shouldMakeOrderViaMainPageBotOrderButton() {
         mainPage.scrollToElement(mainPage.getBotOrderButton());
         mainPage.clickBotOrderButton();
-        w8.until(ExpectedConditions.urlToBe(OrderPage.url));
-    }
-
-    @Test
-    public void shouldMakeOrder() {
-        driver.get(OrderPage.url); // Чтобы можно было использовать как отдельный тест
+        w8.until(ExpectedConditions.urlToBe(OrderPage.ORDER_PAGE_URL));
         orderPage.fillNameField(name);
         orderPage.fillSurnameField(surname);
         orderPage.fillAddressField(address);
