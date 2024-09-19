@@ -1,4 +1,4 @@
-package pageobject;
+package praktikum.sprint4.pom;
 
 import org.openqa.selenium.WebElement;
 

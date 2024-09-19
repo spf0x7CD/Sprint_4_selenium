@@ -1,9 +1,11 @@
-package pageobject;
+package praktikum.sprint4.pom;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class MainPage implements Scrollable {
 
@@ -40,6 +42,14 @@ public class MainPage implements Scrollable {
 
     public void clickBotOrderButton() {
         getBotOrderButton().click();
+    }
+
+    public void waitQuestionExpand(WebDriverWait driverWait, WebElement questionElement) {
+        driverWait.until(ExpectedConditions.attributeToBe(questionElement, "aria-expanded", "true"));
+    }
+
+    public void waitVisibilityOfAnswer(WebDriverWait driverWait, WebElement answerElement) {
+        driverWait.until(ExpectedConditions.visibilityOf(answerElement));
     }
 
     @Override

@@ -1,4 +1,4 @@
-package pageobject;
+package praktikum.sprint4.pom;
 
 public enum RentalDays {
     ONE(0),
