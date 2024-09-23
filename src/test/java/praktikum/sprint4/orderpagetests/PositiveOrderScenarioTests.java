@@ -24,30 +24,30 @@ public class PositiveOrderScenarioTests {
     private OrderPage orderPage;
     private MainPage mainPage;
     private WebDriverWait w8;
-    private final String NAME;
-    private final String SURNAME;
-    private final String ADDRESS;
-    private final String METRO_STATION;
-    private final String PHONE_NUMBER;
-    private final int CALENDAR_DAYS_AFTER_TODAY;
-    private final RentalDays RENTAL_DAYS;
+    private final String name;
+    private final String surname;
+    private final String address;
+    private final String metroStation;
+    private final String phoneNumber;
+    private final int calendarDaysAfterToday;
+    private final RentalDays rentalDays;
 
     public PositiveOrderScenarioTests(
-            String NAME,
-            String SURNAME,
-            String ADDRESS,
-            String METRO_STATION,
-            String PHONE_NUMBER,
-            int CALENDAR_DAYS_AFTER_TODAY,
-            RentalDays RENTAL_DAYS
+            String name,
+            String surname,
+            String address,
+            String metroStation,
+            String phoneNumber,
+            int calendarDaysAfterToday,
+            RentalDays rentalDays
     ) {
-        this.NAME = NAME;
-        this.SURNAME = SURNAME;
-        this.ADDRESS = ADDRESS;
-        this.METRO_STATION = METRO_STATION;
-        this.PHONE_NUMBER = PHONE_NUMBER;
-        this.CALENDAR_DAYS_AFTER_TODAY = CALENDAR_DAYS_AFTER_TODAY;
-        this.RENTAL_DAYS = RENTAL_DAYS;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.metroStation = metroStation;
+        this.phoneNumber = phoneNumber;
+        this.calendarDaysAfterToday = calendarDaysAfterToday;
+        this.rentalDays = rentalDays;
     }
 
     @Parameterized.Parameters
@@ -72,14 +72,14 @@ public class PositiveOrderScenarioTests {
         orderPage = new OrderPage(driver);
         mainPage.clickTopOrderButton();
         w8.until(ExpectedConditions.urlToBe(OrderPage.ORDER_PAGE_URL));
-        orderPage.fillNameField(NAME);
-        orderPage.fillSurnameField(SURNAME);
-        orderPage.fillAddressField(ADDRESS);
-        orderPage.selectMetroStation(METRO_STATION);
-        orderPage.fillPhoneNumberField(PHONE_NUMBER);
+        orderPage.fillNameField(name);
+        orderPage.fillSurnameField(surname);
+        orderPage.fillAddressField(address);
+        orderPage.selectMetroStation(metroStation);
+        orderPage.fillPhoneNumberField(phoneNumber);
         orderPage.clickNextButton();
-        orderPage.selectDeliveryDate(CALENDAR_DAYS_AFTER_TODAY);
-        orderPage.selectRentalPeriod(RENTAL_DAYS);
+        orderPage.selectDeliveryDate(calendarDaysAfterToday);
+        orderPage.selectRentalPeriod(rentalDays);
         orderPage.clickBotOrderButton();
         orderPage.clickYesButton();
         assertTrue(orderPage.getHeaderOrderHasBeenPlaced().isDisplayed());
@@ -90,14 +90,14 @@ public class PositiveOrderScenarioTests {
         mainPage.scrollToElement(mainPage.getBotOrderButton());
         mainPage.clickBotOrderButton();
         w8.until(ExpectedConditions.urlToBe(OrderPage.ORDER_PAGE_URL));
-        orderPage.fillNameField(NAME);
-        orderPage.fillSurnameField(SURNAME);
-        orderPage.fillAddressField(ADDRESS);
-        orderPage.selectMetroStation(METRO_STATION);
-        orderPage.fillPhoneNumberField(PHONE_NUMBER);
+        orderPage.fillNameField(name);
+        orderPage.fillSurnameField(surname);
+        orderPage.fillAddressField(address);
+        orderPage.selectMetroStation(metroStation);
+        orderPage.fillPhoneNumberField(phoneNumber);
         orderPage.clickNextButton();
-        orderPage.selectDeliveryDate(CALENDAR_DAYS_AFTER_TODAY);
-        orderPage.selectRentalPeriod(RENTAL_DAYS);
+        orderPage.selectDeliveryDate(calendarDaysAfterToday);
+        orderPage.selectRentalPeriod(rentalDays);
         orderPage.clickBotOrderButton();
         orderPage.clickYesButton();
         assertTrue(orderPage.getHeaderOrderHasBeenPlaced().isDisplayed());

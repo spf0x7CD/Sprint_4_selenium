@@ -19,12 +19,12 @@ public class FaqSectionTest {
     private WebDriver driver;
     private MainPage mainPage;
     private WebDriverWait w8;
-    private final String QUESTION_TEXT;
-    private final String EXPECTED_ANSWER_TEXT;
+    private final String questionText;
+    private final String expectedAnswerText;
 
-    public FaqSectionTest(String QUESTION_TEXT, String EXPECTED_ANSWER_TEXT) {
-        this.QUESTION_TEXT = QUESTION_TEXT;
-        this.EXPECTED_ANSWER_TEXT = EXPECTED_ANSWER_TEXT;
+    public FaqSectionTest(String questionText, String expectedAnswerText) {
+        this.questionText = questionText;
+        this.expectedAnswerText = expectedAnswerText;
 
     }
 
@@ -53,7 +53,7 @@ public class FaqSectionTest {
 
     @Test
     public void firstAnswerShouldCorrespondFirstQuestion() {
-        WebElement questionElement = mainPage.getQuestionElementWithText(QUESTION_TEXT);
+        WebElement questionElement = mainPage.getQuestionElementWithText(questionText);
         mainPage.scrollToElement(questionElement);
         questionElement.click();
         mainPage.waitQuestionExpand(w8, questionElement);
@@ -61,7 +61,7 @@ public class FaqSectionTest {
         mainPage.waitVisibilityOfAnswer(w8, answerElement);
         assertEquals(
                 "Ответ не соотвествует вопросу",
-                EXPECTED_ANSWER_TEXT,
+                expectedAnswerText,
                 answerElement.getText()
         );
     }
